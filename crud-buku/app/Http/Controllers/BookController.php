@@ -65,14 +65,15 @@ class BookController extends Controller
     public function massDelete(Request $request)
     {
         $ids = $request->ids;
-        
+
         if (is_array($ids) && !empty($ids)) {
-            DB::table('books')->whereIn('id', $ids)->delete();
+            Book::whereIn('id', $ids)->delete();
             return response()->json(['success' => 'Books deleted successfully!']);
         } else {
             return response()->json(['error' => 'No books selected.'], 400);
         }
     }
+
 
 
      // Method untuk export

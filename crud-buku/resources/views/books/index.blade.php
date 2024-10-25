@@ -67,8 +67,9 @@
 
         // Checkbox untuk pilih semua
         $('#select-all').on('click', function() {
-            $(':checkbox').prop('checked', this.checked);
+            $('.checkbox').prop('checked', this.checked);
         });
+
 
         // Fitur hapus massal
         $('#mass-delete').on('click', function() {
@@ -78,24 +79,48 @@
             });
 
             if (ids.length > 0) {
-                if (confirm('Are you sure you want to delete selected books?')) {
-                    $.ajax({
-                        url: '{{ route('books.massDelete') }}',
-                        type: 'DELETE',
-                        data: {
-                            ids: ids,
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            location.reload(); // Reload halaman setelah berhasil dihapus
-                            alert(response.success);
-                        }
-                    });
-                }
+                // Menggunakan SweetAlert2 untuk konfirmasi
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '{{ route('books.massDelete') }}',
+                            type: 'DELETE',
+                            data: {
+                                ids: ids,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    response.success,
+                                    'success'
+                                ).then(() => {
+                                    location.reload(); // Reload halaman setelah berhasil dihapus
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'There was a problem deleting the books.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
             } else {
-                alert('No records selected!');
+                Swal.fire('Warning', 'No records selected!', 'warning');
             }
         });
+
 
         // Pencarian DataTable
         $('#search').on('keyup', function() {
