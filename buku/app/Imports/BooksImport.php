@@ -12,13 +12,18 @@ class BooksImport implements ToModel
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function model(array $row)
+   public function model(array $row)
     {
+        // Pastikan kolom 'name' tidak kosong
+        if (empty($row[0])) {
+            return null; // Skip baris jika kolom 'name' kosong
+        }
+
         return new Book([
-            'name'        => $row['0'],
-            'thumbnail'   => $row['1'],
-            'description' => $row['2'],
-            'author'      => $row['3'],
+            'name'        => $row[0],
+            'thumbnail'   => $row[1] ?? null, // Atur nilai null jika tidak ada data
+            'description' => $row[2] ?? null,
+            'author'      => $row[3] ?? null,
         ]);
     }
 }
