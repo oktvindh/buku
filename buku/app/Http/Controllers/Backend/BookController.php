@@ -129,17 +129,22 @@ class BookController extends Controller
 
     public function DeleteBook($id){
         $book = Book::find($id);
-        unlink($book->thumbnail);
 
-        Book::find($id)->delete();
+        // Cek apakah thumbnail tersedia dan file benar-benar ada
+        if ($book && $book->thumbnail && file_exists(public_path($book->thumbnail))) {
+            unlink(public_path($book->thumbnail));
+        }
 
-        $notification = array(
+        // Hapus buku dari database
+        $book->delete();
+
+        $notification = [
             'message' => 'Book Deleted Successfully',
             'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification); 
-
-    }// End Method 
+        ];
+        return redirect()->back()->with($notification);
+    }
+ 
 
      public function export() 
     {

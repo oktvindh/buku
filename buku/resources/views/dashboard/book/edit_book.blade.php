@@ -30,17 +30,17 @@
 
                 <div class="form-group col-md-6">
                     <label for="input1" class="form-label">Name</label>
-                    <input type="text" name="book_name" class="form-control" id="input1" value="{{ $book->book_name }}" >
+                    <input type="text" name="book_name" class="form-control" id="input1" value="{{ $book->name }}" >
                 </div>
 
                  <div class="form-group col-md-6">
                 <label for="input1" class="form-label">Author </label>
-                <input type="text" name="author" class="form-control" id="input1"  >
+                <input type="text" name="author" class="form-control" id="input1" value="{{ $book->author }}" >
             </div>
 
             <div class="form-group col-md-12">
                 <label for="input1" class="form-label">Description </label>
-                <textarea name="description" class="form-control" id="myeditorinstance"></textarea>
+                <textarea name="description" class="form-control" id="myeditorinstance">{{ old('description', $book->description) }}</textarea>
             </div>
 
                
