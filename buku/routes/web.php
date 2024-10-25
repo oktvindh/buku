@@ -28,5 +28,6 @@ Route::controller(BookController::class)->group(function(){
     Route::get('/delete/book/{id}','DeleteBook')->name('delete.book');
     Route::get('/books/export','export')->name('export.book');
     Route::post('/books/import','import')->name('import.book');
+    Route::get('/import','importBook')->name('import');
 
 });

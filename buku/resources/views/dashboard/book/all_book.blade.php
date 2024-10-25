@@ -18,14 +18,9 @@
                 <!-- Button Add Book -->
                 <a href="{{ route('add.book') }}" class="btn btn-primary">Add Book</a> &nbsp;&nbsp;
 
-                <!-- Button Import (POST Form) -->
-                <form action="{{ route('import.book') }}" method="POST" enctype="multipart/form-data" style="display: inline;">
-                    @csrf
-                    <input type="file" name="file" required style="display: none;" id="import-file">
-                    <button type="button" class="btn btn-warning" onclick="document.getElementById('import-file').click()">Import</button>
-                </form>
-                &nbsp;&nbsp;
-
+                <!-- Button Import -->
+                <a href="{{ route('import') }}" class="btn btn-warning ">Import </a>
+                &nbsp;&nbsp; 
                 <!-- Button Export (GET Link) -->
                 <a href="{{ route('export.book') }}" class="btn btn-danger">Export</a>
             </div> 

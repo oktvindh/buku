@@ -147,6 +147,13 @@ class BookController extends Controller
     }
 
     // Method untuk import
+    public function importBook(Request $request)
+    {
+        return view('dashboard.book.import_book');
+
+    }
+
+    // Method untuk import
     public function import(Request $request)
     {
         Excel::import(new BooksImport, $request->file('import_file'));
