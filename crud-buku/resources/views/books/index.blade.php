@@ -6,19 +6,22 @@
     <a href="{{ route('books.create') }}" class="btn btn-success mb-2">Add New Book</a>
 
     <!-- Tombol Export dan Import -->
-    <a href="{{ route('books.export') }}" class="btn btn-primary mb-2">Export Books</a>
+    <a href="{{ route('books.export') }}" class="btn btn-primary mb-2">Export</a>
 
     <div class="d-flex justify-content-end mb-3">
         <form action="{{ route('books.import') }}" method="POST" enctype="multipart/form-data" class="d-flex align-items-center">
             @csrf
             <div class="custom-file mr-2">
-                <input type="file" name="file" class="custom-file-input" id="importFile" required>
-                <label class="custom-file-label" for="importFile">Choose file</label>
+                <input type="file" name="file" class="form-control-file mb-3 d-inline" required>
             </div>
-            <button type="submit" class="btn btn-success">Import Books</button>
+            <button type="submit" class="btn btn-success">Import</button>
         </form>
     </div>
 
+    <div class="mb-3">
+        <label for="search" class="form-label">Search:</label>
+        <input type="text" id="search" class="form-control" placeholder="Search for books...">
+    </div>
 
     <table class="table table-bordered" id="books-table">
         <thead>
@@ -49,20 +52,25 @@
             @endforeach
         </tbody>
     </table>
-    <button id="mass-delete" class="btn btn-danger">Delete Selected</button>
+    <button id="mass-delete" class="btn btn-danger mb-5">Delete Selected</button>
 </div>
-
 @endsection
 
 @push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
 <script>
     $(document).ready(function() {
-        $('#books-table').DataTable();
+        // Inisialisasi DataTable
+        var table = $('#books-table').DataTable();
 
+        // Checkbox untuk pilih semua
         $('#select-all').on('click', function() {
             $(':checkbox').prop('checked', this.checked);
         });
 
+        // Fitur hapus massal
         $('#mass-delete').on('click', function() {
             var ids = [];
             $('.checkbox:checked').each(function() {
@@ -79,7 +87,7 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function(response) {
-                            location.reload();
+                            location.reload(); // Reload halaman setelah berhasil dihapus
                             alert(response.success);
                         }
                     });
@@ -87,6 +95,11 @@
             } else {
                 alert('No records selected!');
             }
+        });
+
+        // Pencarian DataTable
+        $('#search').on('keyup', function() {
+            table.search(this.value).draw(); // Filter data sesuai input
         });
     });
 </script>
