@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\BooksExport;
+use App\Imports\BooksImport;
+
 use Carbon\Carbon;
 
 class BookController extends Controller
@@ -137,4 +141,23 @@ class BookController extends Controller
 
     }// End Method 
 
+     public function export() 
+    {
+        return Excel::download(new BooksExport, 'books.xlsx');
+    }
+
+    // Method untuk import
+    public function import(Request $request)
+    {
+        Excel::import(new BooksImport, $request->file('import_file'));
+
+        $notification = array(
+            'message' => 'Books Imported Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);  
+
+    }
+
 } 
+   

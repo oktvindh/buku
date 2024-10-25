@@ -26,6 +26,7 @@ Route::controller(BookController::class)->group(function(){
     Route::post('/update/book','UpdateBook')->name('update.book');
     Route::post('/update/book/thumbnail','UpdateBookThumbnail')->name('update.book.thumbnail');
     Route::get('/delete/book/{id}','DeleteBook')->name('delete.book');
-
+    Route::get('/books/export','export')->name('export.book');
+    Route::post('/books/import','import')->name('import.book');
 
 });
