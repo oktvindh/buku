@@ -32,7 +32,7 @@ Route::put('/books/{id}', [BookController::class, 'update'])->name('books.update
 Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('books.destroy');
 
 // Route untuk menghapus buku secara massal berdasarkan checkbox yang dipilih
-Route::delete('/books/massDelete', [BookController::class, 'massDelete'])->name('books.massDelete');
+Route::delete('/books', [BookController::class, 'massDelete'])->name('books.massDelete');
 
 // Route untuk mengekspor data buku ke file Excel (export)
 Route::get('/books/export', [BookController::class, 'export'])->name('books.export');
